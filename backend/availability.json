@@ -1,0 +1,8 @@
+{
+  "doctorId": 1,
+  "dayOfWeek": 2,
+  "startTime": "08:00:00",
+  "endTime": "16:00:00",
+  "effectiveFrom": "2026-08-11",
+  "effectiveUntil": null
+}

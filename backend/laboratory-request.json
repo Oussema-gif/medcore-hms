@@ -1,0 +1,20 @@
+{
+  "patientId": 2,
+  "orderingDoctorId": 1,
+  "appointmentId": null,
+  "medicalRecordId": 2,
+  "priority": "ROUTINE",
+  "clinicalNotes": "Routine follow-up laboratory evaluation",
+  "items": [
+    {
+      "testCode": "CBC",
+      "testName": "Complete blood count",
+      "sortOrder": 1
+    },
+    {
+      "testCode": "CMP",
+      "testName": "Comprehensive metabolic panel",
+      "sortOrder": 2
+    }
+  ]
+}

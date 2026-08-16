@@ -1,0 +1,79 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: ${LOCAL_DATABASE_URL:${DATABASE_URL:jdbc:postgresql://localhost:5432/medcore_hms}}
+    username: ${LOCAL_DATABASE_USERNAME:${DATABASE_USERNAME:medcore}}
+    password: ${LOCAL_DATABASE_PASSWORD:${DATABASE_PASSWORD:medcore}}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: ${LOCAL_HIBERNATE_FORMAT_SQL:true}
+        show_sql: ${LOCAL_HIBERNATE_SHOW_SQL:false}
+        use_sql_comments: false
+
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+    clean-disabled: false
+    baseline-on-migrate: false
+
+server:
+  port: ${LOCAL_SERVER_PORT:8080}
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  api-docs:
+    enabled: ${LOCAL_OPENAPI_ENABLED:true}
+  swagger-ui:
+    enabled: ${LOCAL_OPENAPI_ENABLED:true}
+
+app:
+  cors:
+    allowed-origins: ${LOCAL_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+    allowed-methods: ${LOCAL_CORS_ALLOWED_METHODS:GET,POST,PUT,PATCH,DELETE,OPTIONS}
+    allowed-headers: ${LOCAL_CORS_ALLOWED_HEADERS:Authorization,Content-Type,Accept,X-Request-Id}
+    exposed-headers: ${LOCAL_CORS_EXPOSED_HEADERS:X-Request-Id}
+    allow-credentials: ${LOCAL_CORS_ALLOW_CREDENTIALS:false}
+    max-age-seconds: ${LOCAL_CORS_MAX_AGE_SECONDS:3600}
+
+  security:
+    secure-cookies: ${LOCAL_SECURE_COOKIES:false}
+    jwt:
+      secret: ${LOCAL_JWT_SECRET:${JWT_SECRET}}
+      issuer: ${LOCAL_JWT_ISSUER:${JWT_ISSUER:medcore-hms-local}}
+      access-expiration: ${LOCAL_JWT_ACCESS_EXPIRATION:${JWT_ACCESS_EXPIRATION:PT30M}}
+      refresh-expiration: ${LOCAL_JWT_REFRESH_EXPIRATION:${JWT_REFRESH_EXPIRATION:P7D}}
+
+  bootstrap:
+    admin:
+      enabled: ${LOCAL_BOOTSTRAP_ADMIN_ENABLED:false}
+      username: ${LOCAL_BOOTSTRAP_ADMIN_USERNAME:}
+      email: ${LOCAL_BOOTSTRAP_ADMIN_EMAIL:}
+      display-name: ${LOCAL_BOOTSTRAP_ADMIN_DISPLAY_NAME:}
+      password: ${LOCAL_BOOTSTRAP_ADMIN_PASSWORD:}
+
+logging:
+  level:
+    root: ${LOCAL_LOG_LEVEL_ROOT:INFO}
+    com.medcore.hms: ${LOCAL_LOG_LEVEL_APPLICATION:DEBUG}
+    org.springframework.security: ${LOCAL_LOG_LEVEL_SECURITY:INFO}
+    org.hibernate.SQL: ${LOCAL_LOG_LEVEL_HIBERNATE_SQL:WARN}
+    org.hibernate.orm.jdbc.bind: ${LOCAL_LOG_LEVEL_HIBERNATE_BIND:WARN}
+    org.flywaydb: ${LOCAL_LOG_LEVEL_FLYWAY:INFO}

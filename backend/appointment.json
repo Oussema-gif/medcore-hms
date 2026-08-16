@@ -1,0 +1,9 @@
+{
+  "patientId": 2,
+  "doctorId": 1,
+  "departmentId": 1,
+  "scheduledStartAt": "2026-08-18T08:00:00Z",
+  "scheduledEndAt": "2026-08-18T08:30:00Z",
+  "reason": "Routine medical consultation",
+  "schedulingNotes": "First appointment"
+}

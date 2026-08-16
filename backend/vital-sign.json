@@ -1,0 +1,12 @@
+{
+  "medicalRecordId": 2,
+  "recordedAt": "2026-08-11T11:00:00Z",
+  "temperatureCelsius": 37.2,
+  "systolicBp": 120,
+  "diastolicBp": 80,
+  "heartRate": 72,
+  "respiratoryRate": 16,
+  "oxygenSaturation": 98.0,
+  "weightKg": 75.5,
+  "heightCm": 178.0
+}

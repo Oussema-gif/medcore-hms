@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <springProperty
+            scope="context"
+            name="applicationName"
+            source="spring.application.name"
+            defaultValue="medcore-hms-backend"/>
+
+    <springProperty
+            scope="context"
+            name="rootLogLevel"
+            source="LOG_LEVEL_ROOT"
+            defaultValue="INFO"/>
+
+    <springProperty
+            scope="context"
+            name="applicationLogLevel"
+            source="LOG_LEVEL_APPLICATION"
+            defaultValue="INFO"/>
+
+    <springProperty
+            scope="context"
+            name="securityLogLevel"
+            source="LOG_LEVEL_SECURITY"
+            defaultValue="WARN"/>
+
+    <springProperty
+            scope="context"
+            name="flywayLogLevel"
+            source="LOG_LEVEL_FLYWAY"
+            defaultValue="INFO"/>
+
+    <springProperty
+            scope="context"
+            name="logDirectory"
+            source="LOG_DIRECTORY"
+            defaultValue="logs"/>
+
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%property{applicationName:-medcore-hms-backend}] [requestId=%X{requestId:-}] [correlationId=%X{correlationId:-}] [actorId=%X{actorId:-}] [%thread] %logger{36} - %msg%n"/>
+
+    <property name="FILE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%property{applicationName:-medcore-hms-backend}] [requestId=%X{requestId:-}] [correlationId=%X{correlationId:-}] [actorId=%X{actorId:-}] [%thread] %logger{36} - %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDirectory}/medcore-hms.log</file>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logDirectory}/archive/medcore-hms.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>25MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <logger
+            name="com.medcore.hms"
+            level="${applicationLogLevel}"
+            additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ROLLING_FILE"/>
+    </logger>
+
+    <logger
+            name="org.springframework.security"
+            level="${securityLogLevel}"/>
+
+    <logger
+            name="org.flywaydb"
+            level="${flywayLogLevel}"/>
+
+    <logger
+            name="org.hibernate.SQL"
+            level="WARN"/>
+
+    <logger
+            name="org.hibernate.orm.jdbc.bind"
+            level="WARN"/>
+
+    <logger
+            name="org.apache.catalina"
+            level="WARN"/>
+
+    <logger
+            name="org.apache.tomcat"
+            level="WARN"/>
+
+    <root level="${rootLogLevel}">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>

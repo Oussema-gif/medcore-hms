@@ -1,0 +1,40 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/medcore_test
+    driver-class-name: org.postgresql.Driver
+    username: medcore
+    password: medcore
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+  flyway:
+    enabled: true
+
+  sql:
+    init:
+      mode: never
+
+app:
+  cors:
+    allowed-origins: http://localhost:3000
+  security:
+    jwt:
+      secret: test-only-secret-with-at-least-32-bytes-012345
+      issuer: medcore-hms-test
+      access-expiration: 15m
+      refresh-expiration: 1h
+
+logging:
+  level:
+    root: WARN
+    com.medcore.hms: INFO

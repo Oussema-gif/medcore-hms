@@ -1,0 +1,8 @@
+{
+  "patientId": 2,
+  "doctorId": 99999,
+  "appointmentId": 1,
+  "encounterAt": "2026-08-18T08:30:00Z",
+  "symptoms": "Routine follow-up consultation",
+  "clinicalNotes": "Patient evaluated during the scheduled consultation. No acute concerns documented."
+}

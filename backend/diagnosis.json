@@ -1,0 +1,8 @@
+{
+  "medicalRecordId": 2,
+  "codeSystem": "ICD-10",
+  "diagnosisCode": "R51.9",
+  "description": "Headache, unspecified",
+  "diagnosisType": "PRIMARY",
+  "primary": true
+}

@@ -1,0 +1,148 @@
+spring:
+  application:
+    name: medcore-hms-backend
+
+  profiles:
+    default: dev
+
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: MedCoreHikariPool
+      maximum-pool-size: ${DATABASE_POOL_MAX_SIZE:10}
+      minimum-idle: ${DATABASE_POOL_MIN_IDLE:2}
+      connection-timeout: ${DATABASE_CONNECTION_TIMEOUT_MS:30000}
+      idle-timeout: ${DATABASE_IDLE_TIMEOUT_MS:600000}
+      max-lifetime: ${DATABASE_MAX_LIFETIME_MS:1800000}
+      validation-timeout: ${DATABASE_VALIDATION_TIMEOUT_MS:5000}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+        show_sql: false
+        use_sql_comments: false
+        generate_statistics: false
+    defer-datasource-initialization: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+    validate-on-migrate: true
+    clean-disabled: true
+    connect-retries: 5
+    connect-retries-interval: 5
+
+  jackson:
+    time-zone: UTC
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: true
+    default-property-inclusion: non_null
+
+  servlet:
+    multipart:
+      enabled: false
+
+server:
+  port: ${SERVER_PORT:8080}
+  forward-headers-strategy: framework
+  shutdown: graceful
+  compression:
+    enabled: true
+    mime-types: application/json,application/problem+json,text/plain,text/css,text/javascript,application/javascript,application/javascript
+    min-response-size: 2048
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: ${OPENAPI_ENABLED:true}
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: ${OPENAPI_ENABLED:true}
+    disable-swagger-default-url: true
+  packages-to-scan: com.medcore.hms
+  paths-to-match: /api/v1/**
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+  health:
+    db:
+      enabled: true
+  info:
+    env:
+      enabled: false
+    java:
+      enabled: true
+    os:
+      enabled: false
+
+app:
+  cors:
+    allowed-origins: http://localhost:5173,http://127.0.0.1:5173
+    allowed-methods: ${CORS_ALLOWED_METHODS:GET,POST,PUT,PATCH,DELETE,OPTIONS}
+    allowed-headers: ${CORS_ALLOWED_HEADERS:Authorization,Content-Type,Accept,X-Request-Id}
+    exposed-headers: ${CORS_EXPOSED_HEADERS:X-Request-Id}
+    allow-credentials: ${CORS_ALLOW_CREDENTIALS:false}
+    max-age-seconds: ${CORS_MAX_AGE_SECONDS:3600}
+
+  security:
+    secure-cookies: ${SECURE_COOKIES:true}
+    jwt:
+      secret: ${JWT_SECRET}
+      issuer: ${JWT_ISSUER:medcore-hms}
+      access-expiration: ${JWT_ACCESS_EXPIRATION:PT15M}
+      refresh-expiration: ${JWT_REFRESH_EXPIRATION:P30D}
+
+  bootstrap:
+    admin:
+      enabled: ${BOOTSTRAP_ADMIN_ENABLED:false}
+      username: ${BOOTSTRAP_ADMIN_USERNAME:}
+      email: ${BOOTSTRAP_ADMIN_EMAIL:}
+      display-name: ${BOOTSTRAP_ADMIN_DISPLAY_NAME:}
+      password: ${BOOTSTRAP_ADMIN_PASSWORD:}
+
+  pagination:
+    default-page-size: ${PAGINATION_DEFAULT_PAGE_SIZE:20}
+    maximum-page-size: ${PAGINATION_MAXIMUM_PAGE_SIZE:100}
+
+  rate-limit:
+    authentication:
+      enabled: ${AUTH_RATE_LIMIT_ENABLED:true}
+      requests-per-minute: ${AUTH_RATE_LIMIT_REQUESTS_PER_MINUTE:10}
+    password-reset:
+      enabled: ${PASSWORD_RESET_RATE_LIMIT_ENABLED:true}
+      requests-per-minute: ${PASSWORD_RESET_RATE_LIMIT_REQUESTS_PER_MINUTE:5}
+
+logging:
+  level:
+    root: ${LOG_LEVEL_ROOT:INFO}
+    com.medcore.hms: ${LOG_LEVEL_APPLICATION:INFO}
+    org.springframework.security: ${LOG_LEVEL_SECURITY:WARN}
+    org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE_SQL:WARN}
+    org.hibernate.orm.jdbc.bind: ${LOG_LEVEL_HIBERNATE_BIND:WARN}
+    org.flywaydb: ${LOG_LEVEL_FLYWAY:INFO}

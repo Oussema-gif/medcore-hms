@@ -1,0 +1,35 @@
+package com.medcore.hms.inventory.dto;
+
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+public record ReceiveInventoryBatchRequest(
+        @NotNull
+        Long medicineId,
+
+        @NotBlank
+        @Size(max = 128)
+        String lotNumber,
+
+        @NotNull
+        @Future
+        LocalDate expiryDate,
+
+        @NotNull
+        @DecimalMin(value = "0.0001")
+        BigDecimal quantity,
+
+        @NotNull
+        @DecimalMin(value = "0.0")
+        BigDecimal unitCost,
+
+        @Size(max = 256)
+        String supplierReference
+) {
+}

@@ -1,0 +1,19 @@
+{
+  "userAccountId": null,
+  "medicalRecordNumber": "MRN-0003",
+  "firstName": "Alice",
+  "lastName": "Smith",
+  "dateOfBirth": "1988-07-15",
+  "sex": "FEMALE",
+  "email": "alice.smith@example.com",
+  "phoneNumber": "+21622222222",
+  "addressLine1": "45 Test Street",
+  "city": "Tunis",
+  "postalCode": "1000",
+  "country": "Tunisia",
+  "emergencyContactName": "Bob Smith",
+  "emergencyContactPhone": "+21633333333",
+  "bloodGroup": "A+",
+  "allergies": "None",
+  "active": true
+}

@@ -1,0 +1,999 @@
+/* =========================================================
+   MEDCORE COMMAND CENTER
+   ========================================================= */
+
+.dashboard-page {
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.dashboard-hero-command {
+  position: relative;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  padding: 10px 2px 8px;
+}
+
+.dashboard-hero-copy {
+  max-width: 760px;
+}
+
+.dashboard-status-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 12px;
+
+  color: #67e8f9;
+
+  font-size: 0.64rem;
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.dashboard-status-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #22d3ee;
+
+  box-shadow:
+    0 0 18px rgba(34, 211, 238, 0.7);
+}
+
+.dashboard-hero-command h2 {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: clamp(2.1rem, 4vw, 3.6rem);
+
+  line-height: 0.98;
+
+  letter-spacing: -0.065em;
+}
+
+.dashboard-hero-command h2 span {
+  color: #67e8f9;
+}
+
+.dashboard-hero-command p {
+  max-width: 650px;
+
+  margin: 14px 0 0;
+
+  color: #8ea3b8;
+
+  font-size: 0.92rem;
+
+  line-height: 1.65;
+}
+
+.dashboard-hero-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  gap: 10px;
+}
+
+.dashboard-date-card {
+  min-width: 122px;
+
+  padding: 12px 14px;
+
+  border:
+    1px solid rgba(148, 163, 184, 0.12);
+
+  background:
+    rgba(11, 25, 39, 0.7);
+
+  border-radius: 12px;
+}
+
+.dashboard-date-card span,
+.dashboard-date-card strong {
+  display: block;
+}
+
+.dashboard-date-card span {
+  margin-bottom: 4px;
+
+  color: #64748b;
+
+  font-size: 0.62rem;
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dashboard-date-card strong {
+  color: #e2e8f0;
+
+  font-size: 0.84rem;
+}
+
+/* =========================================================
+   METRICS
+   ========================================================= */
+
+.dashboard-metrics-command {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.dashboard-metric-command {
+  position: relative;
+
+  min-height: 156px;
+
+  padding: 16px;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(148, 163, 184, 0.13);
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 31, 47, 0.95),
+      rgba(8, 18, 31, 0.95)
+    );
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.035);
+}
+
+.dashboard-metric-command::after {
+  content: "";
+
+  position: absolute;
+
+  right: -45px;
+  bottom: -60px;
+
+  width: 130px;
+  height: 130px;
+
+  border-radius: 50%;
+
+  background: var(--metric-glow);
+
+  filter: blur(28px);
+
+  pointer-events: none;
+}
+
+.metric-blue {
+  --metric-glow:
+    rgba(14, 165, 233, 0.14);
+}
+
+.metric-cyan {
+  --metric-glow:
+    rgba(34, 211, 238, 0.14);
+}
+
+.metric-violet {
+  --metric-glow:
+    rgba(139, 92, 246, 0.14);
+}
+
+.metric-green {
+  --metric-glow:
+    rgba(34, 197, 94, 0.12);
+}
+
+.metric-command-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-command-index {
+  color: #334155;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+
+  font-size: 0.67rem;
+  font-weight: 800;
+}
+
+.metric-command-value {
+  position: relative;
+  z-index: 1;
+
+  margin-top: 22px;
+
+  color: #f8fafc;
+
+  font-size: clamp(2rem, 3vw, 2.7rem);
+
+  line-height: 1;
+
+  letter-spacing: -0.06em;
+
+  font-weight: 700;
+}
+
+.metric-command-label {
+  position: relative;
+  z-index: 1;
+
+  margin-top: 10px;
+
+  color: #e2e8f0;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.metric-command-detail {
+  position: relative;
+  z-index: 1;
+
+  margin-top: 4px;
+
+  color: #64748b;
+
+  font-size: 0.7rem;
+}
+
+.metric-icon {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  color: #67e8f9;
+
+  background:
+    rgba(34, 211, 238, 0.055);
+
+  border:
+    1px solid rgba(103, 232, 249, 0.11);
+}
+
+/* =========================================================
+   MAIN GRID
+   ========================================================= */
+
+.dashboard-command-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.45fr)
+    minmax(320px, 0.85fr);
+
+  gap: 12px;
+}
+
+.dashboard-panel {
+  min-width: 0;
+}
+
+.dashboard-workflow-command,
+.dashboard-actions-command {
+  min-height: 320px;
+
+  border:
+    1px solid rgba(148, 163, 184, 0.12);
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 23, 33, 0.92),
+      rgba(10, 14, 20, 0.92)
+    );
+
+  box-shadow:
+    0 16px 38px rgba(0, 0, 0, 0.17);
+}
+
+.command-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 18px 18px 14px;
+
+  border-bottom:
+    1px solid rgba(148, 163, 184, 0.1);
+}
+
+.command-panel-header h3 {
+  margin: 4px 0 0;
+
+  color: #f1f5f9;
+
+  font-size: 1.05rem;
+
+  letter-spacing: -0.025em;
+}
+
+.command-panel-header p {
+  margin: 5px 0 0;
+
+  color: #64748b;
+
+  font-size: 0.74rem;
+}
+
+.command-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #67e8f9;
+
+  font-size: 0.62rem;
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+}
+
+.command-live span {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #22d3ee;
+
+  box-shadow:
+    0 0 14px rgba(34, 211, 238, 0.6);
+}
+
+/* =========================================================
+   WORKFLOW
+   ========================================================= */
+
+.workflow-command-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.workflow-command-item {
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto
+    auto;
+
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 14px 16px;
+
+  border: 0;
+
+  border-bottom:
+    1px solid rgba(148, 163, 184, 0.07);
+
+  background: transparent;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.workflow-command-item:hover {
+  background:
+    rgba(34, 211, 238, 0.035);
+
+  transform: translateX(2px);
+}
+
+.workflow-command-icon {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  color: #67e8f9;
+
+  border:
+    1px solid rgba(103, 232, 249, 0.11);
+
+  background:
+    rgba(34, 211, 238, 0.055);
+
+  border-radius: 10px;
+}
+
+.workflow-command-copy {
+  min-width: 0;
+}
+
+.workflow-command-copy strong,
+.workflow-command-copy span {
+  display: block;
+}
+
+.workflow-command-copy strong {
+  color: #e2e8f0;
+
+  font-size: 0.8rem;
+}
+
+.workflow-command-copy span {
+  margin-top: 3px;
+
+  color: #64748b;
+
+  font-size: 0.68rem;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.workflow-command-value {
+  text-align: right;
+}
+
+.workflow-command-value strong,
+.workflow-command-value small {
+  display: block;
+}
+
+.workflow-command-value strong {
+  color: #f8fafc;
+
+  font-size: 1rem;
+}
+
+.workflow-command-value small {
+  margin-top: 2px;
+
+  color: #64748b;
+
+  font-size: 0.6rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
+}
+
+.workflow-command-item > svg {
+  color: #475569;
+}
+
+.command-panel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  padding: 13px 16px;
+
+  border: 0;
+
+  background:
+    rgba(34, 211, 238, 0.025);
+
+  color: #67e8f9;
+
+  font-size: 0.7rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.command-panel-footer:hover {
+  background:
+    rgba(34, 211, 238, 0.05);
+}
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.dashboard-action-list {
+  display: flex;
+  flex-direction: column;
+
+  padding: 6px;
+}
+
+.dashboard-action {
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 12px;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: transparent;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.dashboard-action:hover {
+  background:
+    rgba(148, 163, 184, 0.045);
+
+  transform: translateX(2px);
+}
+
+.dashboard-action-icon {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid rgba(148, 163, 184, 0.1);
+
+  border-radius: 10px;
+
+  color: #94a3b8;
+
+  background:
+    rgba(148, 163, 184, 0.035);
+}
+
+.dashboard-action-copy {
+  min-width: 0;
+}
+
+.dashboard-action-copy strong,
+.dashboard-action-copy span {
+  display: block;
+}
+
+.dashboard-action-copy strong {
+  color: #e2e8f0;
+
+  font-size: 0.77rem;
+}
+
+.dashboard-action-copy span {
+  margin-top: 3px;
+
+  color: #64748b;
+
+  font-size: 0.67rem;
+}
+
+.dashboard-action > svg {
+  color: #475569;
+}
+
+/* =========================================================
+   SYSTEM STRIP
+   ========================================================= */
+
+.dashboard-system-strip {
+  grid-column: 1 / -1;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px 15px;
+
+  border:
+    1px solid rgba(34, 197, 94, 0.12);
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(34, 197, 94, 0.055),
+      rgba(8, 18, 31, 0.65)
+    );
+}
+
+.system-strip-icon {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  color: #86efac;
+
+  background:
+    rgba(34, 197, 94, 0.08);
+}
+
+.system-strip-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.system-strip-copy strong,
+.system-strip-copy span {
+  display: block;
+}
+
+.system-strip-copy strong {
+  color: #d1fae5;
+
+  font-size: 0.76rem;
+}
+
+.system-strip-copy span {
+  margin-top: 3px;
+
+  color: #64748b;
+
+  font-size: 0.67rem;
+}
+
+.system-strip-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #86efac;
+
+  font-size: 0.65rem;
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+}
+
+.system-strip-status span {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #4ade80;
+
+  box-shadow:
+    0 0 12px rgba(74, 222, 128, 0.55);
+}
+
+/* =========================================================
+   LIGHT MODE
+   ========================================================= */
+
+:root[data-theme="light"] .dashboard-page {
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .dashboard-hero-command {
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .dashboard-hero-command h2 {
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .dashboard-hero-command h2 span {
+  color: #0891b2;
+}
+
+:root[data-theme="light"] .dashboard-hero-command p {
+  color: #64748b;
+}
+
+:root[data-theme="light"] .dashboard-status-line {
+  color: #087f99;
+}
+
+:root[data-theme="light"] .dashboard-status-dot {
+  background: #22c3dd;
+
+  box-shadow:
+    0 0 14px rgba(34, 195, 221, 0.4);
+}
+
+:root[data-theme="light"] .dashboard-role {
+  color: #64748b;
+}
+
+:root[data-theme="light"] .dashboard-date-card {
+  background:
+    rgba(255, 255, 255, 0.88);
+
+  border-color:
+    rgba(15, 23, 42, 0.08);
+
+  box-shadow:
+    0 8px 22px rgba(15, 23, 42, 0.035);
+}
+
+:root[data-theme="light"] .dashboard-date-card span {
+  color: #94a3b8;
+}
+
+:root[data-theme="light"] .dashboard-date-card strong {
+  color: #334155;
+}
+
+:root[data-theme="light"] .dashboard-metric-command {
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #f8fbfd 100%
+    );
+
+  border:
+    1px solid rgba(15, 23, 42, 0.075);
+
+  box-shadow:
+    0 10px 28px rgba(15, 23, 42, 0.055);
+
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .dashboard-metric-command:hover {
+  border-color:
+    rgba(8, 145, 178, 0.16);
+
+  box-shadow:
+    0 16px 34px rgba(15, 23, 42, 0.075);
+}
+
+:root[data-theme="light"] .metric-command-value {
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .metric-command-label {
+  color: #334155;
+}
+
+:root[data-theme="light"] .metric-command-detail {
+  color: #94a3b8;
+}
+
+:root[data-theme="light"] .metric-command-index {
+  color: #cbd5e1;
+}
+
+:root[data-theme="light"] .metric-icon {
+  color: #0891b2;
+
+  background:
+    rgba(8, 145, 178, 0.06);
+
+  border-color:
+    rgba(8, 145, 178, 0.1);
+}
+
+:root[data-theme="light"] .dashboard-workflow-command,
+:root[data-theme="light"] .dashboard-actions-command {
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f9fbfc
+    );
+
+  border:
+    1px solid rgba(15, 23, 42, 0.075);
+
+  box-shadow:
+    0 10px 28px rgba(15, 23, 42, 0.045);
+}
+
+:root[data-theme="light"] .command-panel-header {
+  border-bottom-color:
+    rgba(15, 23, 42, 0.07);
+}
+
+:root[data-theme="light"] .command-panel-header h3 {
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .command-panel-header p {
+  color: #64748b;
+}
+
+:root[data-theme="light"] .workflow-command-item {
+  border-bottom-color:
+    rgba(15, 23, 42, 0.055);
+}
+
+:root[data-theme="light"] .workflow-command-item:hover {
+  background:
+    rgba(8, 145, 178, 0.028);
+}
+
+:root[data-theme="light"] .workflow-command-copy strong {
+  color: #334155;
+}
+
+:root[data-theme="light"] .workflow-command-copy span {
+  color: #94a3b8;
+}
+
+:root[data-theme="light"] .workflow-command-value strong {
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .workflow-command-value small {
+  color: #94a3b8;
+}
+
+:root[data-theme="light"] .workflow-command-icon {
+  color: #0891b2;
+
+  background:
+    rgba(8, 145, 178, 0.055);
+
+  border-color:
+    rgba(8, 145, 178, 0.1);
+}
+
+:root[data-theme="light"] .command-panel-footer {
+  color: #087f99;
+
+  background:
+    rgba(8, 145, 178, 0.025);
+}
+
+:root[data-theme="light"] .dashboard-action:hover {
+  background:
+    rgba(15, 23, 42, 0.025);
+}
+
+:root[data-theme="light"] .dashboard-action-copy strong {
+  color: #334155;
+}
+
+:root[data-theme="light"] .dashboard-action-copy span {
+  color: #94a3b8;
+}
+
+:root[data-theme="light"] .dashboard-action-icon {
+  color: #64748b;
+
+  background:
+    rgba(15, 23, 42, 0.025);
+
+  border-color:
+    rgba(15, 23, 42, 0.075);
+}
+
+:root[data-theme="light"] .dashboard-system-strip {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(22, 163, 74, 0.055),
+      rgba(255, 255, 255, 0.95)
+    );
+
+  border:
+    1px solid rgba(22, 163, 74, 0.13);
+
+  box-shadow:
+    0 8px 24px rgba(15, 23, 42, 0.035);
+}
+
+:root[data-theme="light"] .system-strip-copy strong {
+  color: #166534;
+}
+
+:root[data-theme="light"] .system-strip-copy span {
+  color: #64748b;
+}
+
+:root[data-theme="light"] .system-strip-status {
+  color: #15803d;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .dashboard-metrics-command {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-command-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .dashboard-hero-command {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-hero-meta {
+    align-items: flex-start;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-metrics-command {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-system-strip {
+    align-items: flex-start;
+  }
+
+  .system-strip-status {
+    display: none;
+  }
+}
