@@ -14,31 +14,86 @@ The interface is intentionally designed as a **workspace-first clinical applicat
 
 ---
 
+## Table of Contents
+
+- [Screenshots](#screenshots)
+- [Product Overview](#product-overview)
+- [Functional Modules](#functional-modules)
+- [Technology Stack](#technology-stack)
+- [Architecture](#architecture)
+- [Frontend Structure](#frontend-structure)
+- [Backend Structure](#backend-structure)
+- [Security](#security)
+- [Database & Migrations](#database--migrations)
+- [Local Development](#local-development)
+- [Quality Gates](#quality-gates)
+- [Representative Clinical Workflows](#representative-clinical-workflows)
+- [UX & Design System](#ux--design-system)
+- [API Discovery](#api-discovery)
+- [Testing Strategy](#testing-strategy)
+- [Production Readiness Notes](#production-readiness-notes)
+- [Release Checklist](#release-checklist)
+- [Project Status](#project-status)
+- [License](#license)
+- [Author](#author)
+
+---
+
 ## Screenshots
 
-### Command Center
+> A full walkthrough video is in progress — screenshots below cover the core workspaces in the meantime.
+
+### Authentication & Command Center
+
+| Login | Dashboard |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Dashboard](docs/screenshots/dashboard.png) |
 
 The dashboard provides an operational overview of current activity, system status, workflow shortcuts, and high-level metrics.
 
-![MedCore HMS Dashboard](screenshots/01-dashboard.png)
+### Patients
 
-### Clinical Workspace — Vitals & Diagnoses
+| Patients Directory | Patient Detail |
+|---|---|
+| ![Patients](docs/screenshots/patients.png) | ![Patient Detail](docs/screenshots/patient-detail.png) |
 
-The patient clinical workspace brings record context, vitals capture, recent measurements, diagnosis entry, and diagnosis review into one workflow.
+### Clinical Workspace
 
-![MedCore HMS Clinical Workspace](screenshots/02-clinical-vitals-diagnoses.png)
+![Patient Clinical Workspace](docs/screenshots/patient-clinical-workspace.png)
 
-### Medicines
+The patient clinical workspace brings record context, vitals capture, diagnosis entry, and diagnosis review into one workflow.
 
-The medicines workspace provides medicine catalog management, structured creation, status visibility, pagination, and search-oriented administration.
+### Doctors & Scheduling
 
-![MedCore HMS Medicines](screenshots/03-medicines.png)
+| Doctors Directory | Doctor Detail | Doctor Scheduling |
+|---|---|---|
+| ![Doctors](docs/screenshots/doctors.png) | ![Doctor Detail](docs/screenshots/doctor-detail.png) | ![Doctor Scheduling](docs/screenshots/doctor-scheduling.png) |
+
+### Appointments
+
+![Appointments](docs/screenshots/appointments.png)
+
+Appointment scheduling with conflict checking, check-in, lifecycle transitions, and cancellation.
+
+### Pharmacy — Medicines
+
+| Medicines Catalog | Create Medicine |
+|---|---|
+| ![Medicines](docs/screenshots/medicines.png) | ![Create Medicine](docs/screenshots/medicine-create.png) |
 
 ### Inventory
 
-The inventory workspace provides medicine context, stock intake, batch availability, expiry tracking, quantity management, and inventory audit workflows.
+| Inventory Overview | Selected Medicine Batches |
+|---|---|
+| ![Inventory](docs/screenshots/inventory.png) | ![Inventory Selected Medicine](docs/screenshots/inventory-selected-medicine.png) |
 
-![MedCore HMS Inventory](screenshots/04-inventory.png)
+Batch intake, expiry tracking, quantity adjustment, and audit-trail stock movements.
+
+### Billing & Notifications
+
+| Invoices | Notifications |
+|---|---|
+| ![Invoices](docs/screenshots/invoices.png) | ![Notifications](docs/screenshots/notifications.png) |
 
 ---
 
@@ -120,25 +175,25 @@ MedCore HMS follows a conventional full-stack separation of concerns.
 ```text
 ┌───────────────────────────────────────────────────────────────┐
 │                         React Frontend                        │
-│  Routing • Pages • Forms • UI State • React Query • Zod     │
+│  Routing • Pages • Forms • UI State • React Query • Zod       │
 └──────────────────────────────┬────────────────────────────────┘
-                               │ HTTP / JSON
-                               ▼
+                                │ HTTP / JSON
+                                ▼
 ┌───────────────────────────────────────────────────────────────┐
 │                    Spring Boot REST API                       │
-│ Controllers • Validation • Services • Security • Mapping    │
+│  Controllers • Validation • Services • Security • Mapping     │
 └──────────────────────────────┬────────────────────────────────┘
-                               │
-                               ▼
+                                │
+                                ▼
 ┌───────────────────────────────────────────────────────────────┐
 │                 Spring Data JPA / Hibernate                   │
 │                 Repositories • Domain Model                   │
 └──────────────────────────────┬────────────────────────────────┘
-                               │
-                               ▼
+                                │
+                                ▼
 ┌───────────────────────────────────────────────────────────────┐
 │                         MySQL Database                        │
-│                 Flyway-managed schema evolution               │
+│                 Flyway-managed schema evolution                │
 └───────────────────────────────────────────────────────────────┘
 ```
 
@@ -545,6 +600,8 @@ Before tagging a release:
 
 The current build includes the implemented clinical, operational, pharmacy, inventory, billing, security, validation, responsive UI, and workspace-oriented navigation capabilities described above.
 
+A demo video walkthrough is planned but not yet available — screenshots above cover the primary workspaces in the meantime.
+
 For deeper architecture, deployment, testing, maintenance, security, and operational guidance, see the companion technical documentation in the repository (for example `Documentation.pdf` when included in the release package).
 
 ---
@@ -554,11 +611,22 @@ For deeper architecture, deployment, testing, maintenance, security, and operati
 Keep the images used by this README under:
 
 ```text
-screenshots/
-├── 01-dashboard.png
-├── 02-clinical-vitals-diagnoses.png
-├── 03-medicines.png
-└── 04-inventory.png
+docs/screenshots/
+├── login.png
+├── dashboard.png
+├── patients.png
+├── patient-detail.png
+├── patient-clinical-workspace.png
+├── doctors.png
+├── doctor-detail.png
+├── doctor-scheduling.png
+├── appointments.png
+├── medicines.png
+├── medicine-create.png
+├── inventory.png
+├── inventory-selected-medicine.png
+├── invoices.png
+└── notifications.png
 ```
 
 This keeps GitHub rendering self-contained and makes the README portable when the repository is cloned.
