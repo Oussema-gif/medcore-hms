@@ -2,6 +2,7 @@ import axios, {
   type AxiosError,
   type InternalAxiosRequestConfig,
 } from "axios";
+
 import {
   clearSession,
   getAccessToken,
@@ -10,6 +11,18 @@ import {
 } from "../features/auth/session";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+type AuthenticatedRequestConfig =
+  InternalAxiosRequestConfig & {
+    _retry?: boolean;
+  };
+
+type RefreshResponse = {
+  accessToken: string;
+  refreshToken: string;
+  tokenType: string;
+  expiresIn: number;
+};
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -20,6 +33,18 @@ export const apiClient = axios.create({
 
 let refreshPromise: Promise<string> | null = null;
 
+function isAuthEndpoint(url?: string): boolean {
+  if (!url) {
+    return false;
+  }
+
+  return (
+    url.includes("/auth/login") ||
+    url.includes("/auth/refresh") ||
+    url.includes("/auth/logout")
+  );
+}
+
 async function refreshAccessToken(): Promise<string> {
   const refreshToken = getRefreshToken();
 
@@ -27,12 +52,14 @@ async function refreshAccessToken(): Promise<string> {
     throw new Error("No refresh token available.");
   }
 
-  const response = await axios.post<{
-    accessToken: string;
-    refreshToken: string;
-    tokenType: string;
-    expiresIn: number;
-  }>(
+  /*
+   * IMPORTANT:
+   * Use plain axios here rather than apiClient.
+   *
+   * The refresh request must not pass through the normal
+   * authenticated request / 401 refresh interceptor.
+   */
+  const response = await axios.post<RefreshResponse>(
     `${API_BASE_URL}/auth/refresh`,
     {
       refreshToken,
@@ -44,21 +71,40 @@ async function refreshAccessToken(): Promise<string> {
     },
   );
 
-  updateAccessToken(response.data.accessToken);
+  const {
+    accessToken,
+    refreshToken: rotatedRefreshToken,
+  } = response.data;
+
+  if (!accessToken || !rotatedRefreshToken) {
+    throw new Error(
+      "Refresh response did not contain the required tokens.",
+    );
+  }
+
+  updateAccessToken(accessToken);
+
   localStorage.setItem(
     "medcore.refreshToken",
-    response.data.refreshToken,
+    rotatedRefreshToken,
   );
 
-  return response.data.accessToken;
+  return accessToken;
 }
 
 apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  (
+    config: InternalAxiosRequestConfig,
+  ) => {
     const token = getAccessToken();
 
-    if (token) {
+    /*
+     * Do not attach an old access token to auth endpoints.
+     */
+    if (token && !isAuthEndpoint(config.url)) {
       config.headers.Authorization = `Bearer ${token}`;
+    } else if (config.headers.Authorization) {
+      delete config.headers.Authorization;
     }
 
     return config;
@@ -67,36 +113,62 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError) => {
-    const originalRequest = error.config as
-      | (InternalAxiosRequestConfig & { _retry?: boolean })
-      | undefined;
 
+  async (error: AxiosError) => {
+    const originalRequest =
+      error.config as AuthenticatedRequestConfig | undefined;
+
+    /*
+     * Only protected requests should trigger refresh.
+     */
     if (
       error.response?.status !== 401 ||
       !originalRequest ||
       originalRequest._retry ||
-      originalRequest.url?.includes("/auth/login") ||
-      originalRequest.url?.includes("/auth/refresh")
+      isAuthEndpoint(originalRequest.url)
     ) {
       return Promise.reject(error);
     }
 
+    /*
+     * Prevent infinite retry loops.
+     */
     originalRequest._retry = true;
 
     try {
+      /*
+       * Multiple requests can receive 401 at exactly the same time.
+       *
+       * Only one refresh request is allowed to run.
+       * All other requests wait for that same promise.
+       */
       refreshPromise ??= refreshAccessToken().finally(() => {
         refreshPromise = null;
       });
 
-      const newAccessToken = await refreshPromise;
+      const newAccessToken =
+        await refreshPromise;
 
-      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+      originalRequest.headers.Authorization =
+        `Bearer ${newAccessToken}`;
 
       return apiClient(originalRequest);
     } catch (refreshError) {
+      /*
+       * The refresh token is no longer usable.
+       * Remove the complete client session.
+       */
       clearSession();
-      window.location.assign("/login");
+
+      /*
+       * Avoid repeatedly redirecting if the user
+       * is already on the login page.
+       */
+      if (
+        window.location.pathname !== "/login"
+      ) {
+        window.location.replace("/login");
+      }
 
       return Promise.reject(refreshError);
     }

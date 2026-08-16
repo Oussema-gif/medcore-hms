@@ -11,6 +11,7 @@ import { SplashScreen } from "./features/auth/SplashScreen";
 import { AppShell } from "./layout/AppShell";
 import { ProtectedRoute } from "./router/ProtectedRoute";
 import {
+  clearSession,
   getRefreshToken,
   setCurrentUser,
 } from "./features/auth/session";
@@ -136,24 +137,43 @@ function AuthBootstrap({
     async function bootstrap() {
       const refreshToken = getRefreshToken();
 
+      /*
+       * No persisted session.
+       * The application can start immediately.
+       */
       if (!refreshToken) {
         if (!cancelled) {
           setReady(true);
         }
+
         return;
       }
 
       try {
+        /*
+         * Step 1:
+         * Obtain a fresh access token using the refresh token.
+         */
         await refreshSession();
 
-        const user = await getAuthenticatedUser();
+        /*
+         * Step 2:
+         * Verify the freshly authenticated session
+         * against the backend.
+         */
+        const user =
+          await getAuthenticatedUser();
 
         if (!cancelled) {
           setCurrentUser(user);
         }
       } catch {
-        localStorage.removeItem("medcore.refreshToken");
-        localStorage.removeItem("medcore.user");
+        /*
+         * Refresh token is invalid/expired/revoked,
+         * therefore the complete client session
+         * must be removed.
+         */
+        clearSession();
       } finally {
         if (!cancelled) {
           setReady(true);
@@ -168,8 +188,16 @@ function AuthBootstrap({
     };
   }, []);
 
+  /*
+   * Do not mount ProtectedRoute or React Query pages
+   * until authentication bootstrap has completed.
+   */
   if (!ready) {
-    return <SplashScreen onComplete={() => undefined} />;
+    return (
+      <SplashScreen
+        onComplete={() => undefined}
+      />
+    );
   }
 
   return <>{children}</>;

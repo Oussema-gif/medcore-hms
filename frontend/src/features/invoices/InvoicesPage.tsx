@@ -16,7 +16,10 @@ export function InvoicesPage() {
     queryFn: () => getPatients(0, 100),
   });
 
-  const patients = patientsQuery.data?.data ?? [];
+  const patients = useMemo(
+    () => patientsQuery.data?.data ?? [],
+    [patientsQuery.data?.data],
+  );
 
   const filteredPatients = useMemo(() => {
     const normalized = search.trim().toLowerCase();

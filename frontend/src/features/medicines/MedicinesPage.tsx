@@ -109,8 +109,10 @@ export function MedicinesPage() {
   const response =
     medicinesQuery.data;
 
-  const medicines =
-    response?.data ?? [];
+  const medicines = useMemo(
+    () => medicinesQuery.data?.data ?? [],
+    [medicinesQuery.data?.data],
+  );
 
   const normalizedSearch =
     search.trim().toLowerCase();

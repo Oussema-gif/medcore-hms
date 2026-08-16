@@ -112,7 +112,11 @@ export function InventoryPage() {
     },
   });
 
-  const medicines = medicinesQuery.data?.data ?? [];
+  const medicines = useMemo(
+    () => medicinesQuery.data?.data ?? [],
+    [medicinesQuery.data?.data],
+  );
+
   const batches = batchesQuery.data?.data ?? [];
   const movements = movementsQuery.data?.data ?? [];
 

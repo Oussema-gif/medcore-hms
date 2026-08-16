@@ -33,6 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public JwtAuthenticationFilter(
             JwtTokenService jwtTokenService,
             UserDetailsService userDetailsService) {
+
         this.jwtTokenService = jwtTokenService;
         this.userDetailsService = userDetailsService;
     }
@@ -47,8 +48,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorizationHeader =
                 request.getHeader(AUTHORIZATION_HEADER);
 
+        /*
+         * No Bearer token.
+         *
+         * This is normal for public endpoints such as /auth/login,
+         * /auth/refresh and /actuator/health.
+         */
         if (!StringUtils.hasText(authorizationHeader)
                 || !authorizationHeader.startsWith(BEARER_PREFIX)) {
+
             filterChain.doFilter(request, response);
             return;
         }
@@ -57,10 +65,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .substring(BEARER_PREFIX.length())
                 .trim();
 
+        /*
+         * Never overwrite an already established authentication.
+         */
         if (!StringUtils.hasText(token)
                 || SecurityContextHolder
                         .getContext()
                         .getAuthentication() != null) {
+
             filterChain.doFilter(request, response);
             return;
         }
@@ -70,6 +82,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     jwtTokenService.extractUsername(token);
 
             if (!StringUtils.hasText(username)) {
+                LOGGER.debug(
+                        "JWT rejected for {} {}: token has no username",
+                        request.getMethod(),
+                        request.getRequestURI());
+
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -77,26 +94,48 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails =
                     userDetailsService.loadUserByUsername(username);
 
-            if (jwtTokenService.isTokenValid(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities());
+            if (!jwtTokenService.isTokenValid(token, userDetails)) {
+                LOGGER.debug(
+                        "JWT rejected for {} {}: token is invalid for user '{}'",
+                        request.getMethod(),
+                        request.getRequestURI(),
+                        username);
 
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request));
+                SecurityContextHolder.clearContext();
 
-                SecurityContextHolder
-                        .getContext()
-                        .setAuthentication(authentication);
+                filterChain.doFilter(request, response);
+                return;
             }
+
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities());
+
+            authentication.setDetails(
+                    new WebAuthenticationDetailsSource()
+                            .buildDetails(request));
+
+            SecurityContextHolder
+                    .getContext()
+                    .setAuthentication(authentication);
+
+            LOGGER.debug(
+                    "JWT authentication established for user '{}' on {} {}",
+                    username,
+                    request.getMethod(),
+                    request.getRequestURI());
+
         } catch (RuntimeException exception) {
+
             SecurityContextHolder.clearContext();
 
             LOGGER.debug(
-                    "JWT authentication was not established for the request");
+                    "JWT authentication failed for {} {}: {}",
+                    request.getMethod(),
+                    request.getRequestURI(),
+                    exception.getMessage());
         }
 
         filterChain.doFilter(request, response);

@@ -1,84 +1,84 @@
 # MedCore HMS
 
-> Hospital Management System for modern clinical, administrative, pharmacy, billing, and patient workflows.
+> A modern, workspace-first Hospital Management System for clinical, administrative, pharmacy, inventory, scheduling, and billing workflows.
 
-MedCore HMS is a full-stack Hospital Management System designed as a production-oriented software project rather than a UI-only prototype. The project combines a secured Java/Spring backend with a modern React frontend and focuses on maintainable architecture, role-based access control, validation, clinical workflows, and a professional workspace-oriented interface.
+[![Frontend](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-087f99?style=flat-square)](#technology-stack)
+[![Backend](https://img.shields.io/badge/Backend-Java%2021%20%2B%20Spring%20Boot-1b6f4a?style=flat-square)](#technology-stack)
+[![Security](https://img.shields.io/badge/Security-Spring%20Security%20%2B%20JWT-7c3aed?style=flat-square)](#security)
+[![Database](https://img.shields.io/badge/Database-MySQL-4479a1?style=flat-square)](#technology-stack)
+[![Migrations](https://img.shields.io/badge/Schema-Flyway-cc0000?style=flat-square)](#technology-stack)
 
-## Project Overview
+MedCore HMS is a full-stack hospital management application built around real operational workflows instead of isolated CRUD screens. The system combines a React/TypeScript client with a Java 21 Spring Boot backend, relational persistence, migration-managed schema evolution, JWT authentication, validation, and role-aware access boundaries.
 
-MedCore HMS provides a centralized platform for managing hospital operations across multiple user roles. The application is structured around real operational workflows such as patient registration, doctor management, appointments, medical records, prescriptions, pharmacy inventory, invoices, and reporting.
+The interface is intentionally designed as a **workspace-first clinical application**: users move from a command center into focused patient, doctor, appointment, clinical, pharmacy, inventory, and billing workspaces while keeping context visible.
 
-The project follows the principle that frontend permissions and navigation should reflect the same access boundaries enforced by the backend security layer. The documented role model includes Admin, Doctor, Receptionist, Pharmacist, and Patient personas. fileciteturn62file0L11-L22
+---
 
-## Main Capabilities
+## Screenshots
 
-### Administration
+### Command Center
 
-- Dashboard and operational overview
-- User and access management
-- Doctors and departments
-- Patients
-- Appointments
-- Billing and invoices
-- Pharmacy inventory
-- Reports
-- Audit logs
-- Settings
+The dashboard provides an operational overview of current activity, system status, workflow shortcuts, and high-level metrics.
 
-### Clinical workflows
+![MedCore HMS Dashboard](screenshots/01-dashboard.png)
 
-- Patient clinical workspace
-- Medical records
-- Vitals
-- Diagnoses
-- Laboratory requests
-- Prescriptions
-- Clinical billing context
-- Doctor availability and weekly scheduling
+### Clinical Workspace — Vitals & Diagnoses
 
-The frontend clinical workspace is organized into reusable modules and clinical tabs for overview, vitals, records, laboratory, prescriptions, and billing. fileciteturn63file9L941-L1017
+The patient clinical workspace brings record context, vitals capture, recent measurements, diagnosis entry, and diagnosis review into one workflow.
 
-### Doctor management
+![MedCore HMS Clinical Workspace](screenshots/02-clinical-vitals-diagnoses.png)
 
-The Doctor module supports:
+### Medicines
 
-- Doctor directory and pagination
-- Doctor profile/details
-- Create doctor
-- Edit doctor
-- Doctor deactivation
-- Doctor availability management
-- Weekly availability windows
-- Consultation duration configuration
+The medicines workspace provides medicine catalog management, structured creation, status visibility, pagination, and search-oriented administration.
 
-Doctor creation and editing use validated form schemas, including positive identifiers, registration number validation, names, optional contact data, and consultation duration validation. fileciteturn63file0L38-L69 fileciteturn63file2L216-L251
+![MedCore HMS Medicines](screenshots/03-medicines.png)
 
-### Appointment management
+### Inventory
 
-Appointment workflows include creation, check-in, start, completion, and cancellation. Appointment creation validates patient, doctor, department, future start/end timestamps, reason, and scheduling notes. The backend also contains doctor-conflict detection based on overlapping appointment windows. fileciteturn63file4L452-L487 fileciteturn63file4L529-L557
+The inventory workspace provides medicine context, stock intake, batch availability, expiry tracking, quantity management, and inventory audit workflows.
+
+![MedCore HMS Inventory](screenshots/04-inventory.png)
+
+---
+
+## Product Overview
+
+MedCore HMS centralizes hospital operations into a single web application with clear boundaries between presentation, application logic, security, persistence, and schema management.
+
+### Core objectives
+
+- Centralize patient and clinical information.
+- Coordinate doctors, departments, scheduling, and appointments.
+- Support medical records, vitals, diagnoses, laboratory work, and prescriptions.
+- Manage medicines, inventory batches, quantities, expiry dates, and stock movements.
+- Support invoicing and payment workflows.
+- Provide consistent validation, loading, empty, and error states.
+- Keep frontend visibility aligned with backend authorization boundaries.
+- Provide a professional interface suitable for daily operational use.
+
+---
+
+## Functional Modules
+
+| Module | Capabilities |
+|---|---|
+| Dashboard / Command Center | Operational overview, metrics, workflow shortcuts, system status |
+| Patients | Directory, search, registration, editing, details, clinical workspace |
+| Doctors | Directory, creation, editing, profiles, deactivation, scheduling availability |
+| Appointments | Creation, conflict checking, check-in, start, completion, cancellation |
+| Medical Records | Patient encounters, doctor context, symptoms, clinical notes |
+| Vitals | Temperature, blood pressure, heart rate, respiratory rate, SpO₂, weight, height |
+| Diagnoses | Diagnosis creation and association with medical records |
+| Laboratory | Requests, test items, priority, status, results |
+| Prescriptions | Medication orders, dosing, route, frequency, duration, quantity, dispensing, cancellation |
+| Billing | Invoices, line items, issue lifecycle, payments, payment voiding |
+| Inventory | Medicines, batches, receipts, adjustments, stock movements, expiry tracking |
+| Notifications | Workflow and system feedback where available |
+
+---
 
 ## Technology Stack
-
-### Backend
-
-- Java 21
-- Spring Boot
-- Spring Framework
-- Spring Security
-- Spring Data JPA
-- JWT authentication
-- Flyway database migrations
-- MySQL connector
-- MapStruct
-- Springdoc OpenAPI / Swagger
-- Lombok
-- Spring Boot Actuator
-- Spring AOP
-- JUnit / Spring Boot Test
-- Spring Security Test
-- Testcontainers
-
-The backend dependency set includes Flyway, MySQL, JWT, Springdoc OpenAPI, actuator/AOP support, and Testcontainers-based testing. fileciteturn63file5L568-L653
 
 ### Frontend
 
@@ -86,174 +86,227 @@ The backend dependency set includes Flyway, MySQL, JWT, Springdoc OpenAPI, actua
 - TypeScript
 - Vite
 - React Router
-- TanStack Query
+- TanStack React Query
 - React Hook Form
 - Zod
 - Axios
 - Lucide React
+- Framer Motion
 
-The frontend uses TanStack Query for server state, React Hook Form plus Zod for form state and validation, and reusable feature-oriented components. fileciteturn63file0L25-L36
+### Backend
+
+- Java 21
+- Spring Boot
+- Spring Framework
+- Spring Security
+- Spring Data JPA / Hibernate
+- JWT authentication
+- MapStruct
+- Flyway
+- MySQL connector
+- Springdoc OpenAPI / Swagger
+- Spring Boot Actuator
+- Spring AOP
+- JUnit / Spring Boot Test
+- Spring Security Test
+- Testcontainers
+
+---
 
 ## Architecture
 
-The project follows a feature-oriented full-stack structure with clear separation between presentation, API access, domain behavior, persistence, security, and infrastructure concerns.
-
-### Frontend structure
-
-A representative feature structure looks like:
+MedCore HMS follows a conventional full-stack separation of concerns.
 
 ```text
-frontend/
-└── src/
-    ├── api/
-    ├── components/
-    ├── features/
-    │   ├── doctors/
-    │   ├── patients/
-    │   ├── appointments/
-    │   ├── medical-records/
-    │   ├── vitals/
-    │   ├── diagnoses/
-    │   ├── laboratory/
-    │   ├── prescriptions/
-    │   └── invoices/
-    ├── routes/
-    ├── types/
-    └── ...
+┌───────────────────────────────────────────────────────────────┐
+│                         React Frontend                        │
+│  Routing • Pages • Forms • UI State • React Query • Zod     │
+└──────────────────────────────┬────────────────────────────────┘
+                               │ HTTP / JSON
+                               ▼
+┌───────────────────────────────────────────────────────────────┐
+│                    Spring Boot REST API                       │
+│ Controllers • Validation • Services • Security • Mapping    │
+└──────────────────────────────┬────────────────────────────────┘
+                               │
+                               ▼
+┌───────────────────────────────────────────────────────────────┐
+│                 Spring Data JPA / Hibernate                   │
+│                 Repositories • Domain Model                   │
+└──────────────────────────────┬────────────────────────────────┘
+                               │
+                               ▼
+┌───────────────────────────────────────────────────────────────┐
+│                         MySQL Database                        │
+│                 Flyway-managed schema evolution               │
+└───────────────────────────────────────────────────────────────┘
 ```
 
-### Backend structure
+### Request lifecycle
 
-The backend is organized around domain modules and application services, with repositories, DTOs, validation, security, and exception handling separated from the web layer.
+1. A user initiates an action from a routed React workspace.
+2. TanStack Query executes the request or mutation through the Axios API client.
+3. Spring Security processes authentication and authorization.
+4. The service/application layer validates business rules and orchestrates the use case.
+5. Repositories persist or retrieve domain state.
+6. The API returns a structured response or application-specific error.
+7. The frontend invalidates or updates related queries so the visible workspace stays synchronized.
+
+### Architectural principles
+
+- Separation of concerns between UI, API, business rules, and persistence.
+- Feature-oriented frontend organization.
+- Reusable modules instead of page-level duplication.
+- Explicit validation at client and server boundaries.
+- Centralized exception handling.
+- Server-side authorization independent of UI visibility.
+- Migration-managed schema evolution.
+- Explicit confirmation for destructive actions.
+
+---
+
+## Frontend Structure
+
+The frontend is organized around business capabilities rather than a single monolithic page layer.
 
 ```text
-backend/
-└── src/
-    ├── main/
-    │   ├── java/com/medcore/hms/
-    │   │   ├── auth/
-    │   │   ├── appointment/
-    │   │   ├── doctor/
-    │   │   ├── patient/
-    │   │   ├── medicalrecord/
-    │   │   ├── prescription/
-    │   │   ├── pharmacy/
-    │   │   ├── billing/
-    │   │   ├── security/
-    │   │   ├── exception/
-    │   │   └── ...
-    │   └── resources/
-    │       ├── application.yml
-    │       └── db/migration/
-    └── test/
+frontend/src/
+├── api/
+│   └── client.ts
+├── components/
+├── features/
+│   ├── appointments/
+│   ├── auth/
+│   ├── dashboard/
+│   ├── diagnoses/
+│   ├── doctors/
+│   ├── inventory/
+│   ├── invoices/
+│   ├── laboratory/
+│   ├── medical-records/
+│   ├── medicines/
+│   ├── notifications/
+│   ├── patients/
+│   ├── prescriptions/
+│   └── vitals/
+├── layout/
+├── navigation/
+├── router/
+├── styles/
+└── types/
 ```
 
-## Security Model
+TanStack React Query handles server state, caching, refetching, and mutation lifecycles. Successful mutations invalidate the relevant query keys so patient, doctor, appointment, laboratory, prescription, invoice, inventory, and availability views remain synchronized.
 
-Security is a first-class architectural concern in MedCore HMS.
+React Hook Form and Zod provide structured form handling and client-side validation. Backend validation remains authoritative.
 
-The application is designed around role-based access control, JWT-based authentication, server-side authorization boundaries, validation, and consistent API error handling.
+---
 
-Frontend navigation is intentionally role-scoped so the interface does not advertise operations that the backend would reject. The project design explicitly mirrors backend `@PreAuthorize` boundaries at the UI level. fileciteturn62file0L21-L22
+## Backend Structure
 
-Destructive operations use explicit confirmation dialogs that identify the exact entity being modified. This pattern is intended to reduce accidental actions in clinical and financial workflows. fileciteturn62file0L24-L31
+The backend follows a layered Spring Boot architecture:
 
-## API and Error Handling
+```text
+backend/src/main/java/com/medcore/hms/
+├── auth/
+├── appointment/
+├── diagnosis/
+├── doctor/
+├── doctoravailability/
+├── exception/
+├── inventory/
+├── invoice/
+├── laboratory/
+├── medicalrecord/
+├── medicine/
+├── notification/
+├── patient/
+├── prescription/
+├── security/
+├── user/
+└── vitalsign/
+```
 
-The backend exposes REST-style APIs and uses DTO validation for incoming requests. Centralized exception handling is implemented with a `@RestControllerAdvice`-based global exception handler and dedicated API/business exception types. fileciteturn63file8L824-L925
+Representative backend responsibilities include:
 
-Examples of handled application errors include:
+- REST controllers for HTTP boundaries.
+- DTOs for stable API contracts.
+- Services for use cases and transactions.
+- Domain models for statuses and invariants.
+- Repositories for persistence access.
+- MapStruct mappers for DTO/entity transformations.
+- Centralized exception handling.
+- Security services and JWT token processing.
 
-- Bad requests
-- Validation failures
-- Forbidden operations
-- Business-rule violations
-- Conflicts
-- Authentication/authorization failures
-- Data integrity errors
+---
 
-## Database and Migrations
+## Security
 
-Database schema evolution is managed through Flyway migrations instead of relying on implicit runtime schema generation.
+Authentication is based on stateless JWT access tokens with refresh-token support.
 
-This approach provides:
+The backend uses Spring Security with a dedicated JWT authentication filter. The frontend attaches access tokens to authenticated API requests and can refresh the access token when a protected request returns `401`.
 
-- Versioned database changes
-- Repeatable deployments
-- Controlled schema evolution
-- Environment consistency
-- Easier rollback planning and release auditing
+Security-related principles include:
 
-## Frontend State Management
+- Stateless session management.
+- JWT access-token validation.
+- Refresh-token rotation support.
+- Server-side authorization.
+- Password encoding.
+- CORS configuration.
+- Explicit security headers.
+- Protected API routes by default.
+- Public access limited to authentication, health, and API documentation endpoints.
 
-TanStack Query is used for server-state fetching and cache invalidation. Doctor detail data, for example, is loaded through query keys scoped to the doctor identifier, while mutations invalidate the appropriate doctor/list queries after successful writes. The same pattern is used throughout the project for clinical resources. fileciteturn63file0L71-L127
+### Secrets
 
-## Validation
+**Never commit JWT secrets, database passwords, API keys, or `.env` files containing credentials.**
 
-Zod schemas are used at the frontend boundary to prevent invalid data from being submitted to the backend.
+Use environment variables or a secrets-management system for deployment configuration.
 
-Typical validation rules include:
-
-- Positive numeric identifiers
-- Required clinical fields
-- Maximum string lengths
-- Valid email formats
-- Positive consultation duration
-- Chronological time ranges
-- Valid date ranges
-
-Validation is also enforced on the backend through Jakarta Bean Validation annotations and domain-level business rules. For example, appointment request DTOs use `@NotNull`, `@Future`, `@NotBlank`, and `@Size`. fileciteturn63file4L452-L487
-
-## User Roles
-
-| Role | Primary Responsibilities |
-|---|---|
-| Admin | Users, doctors, departments, patients, appointments, billing, pharmacy, reports, audit logs, settings |
-| Doctor | Appointments, patients, prescriptions, medical records |
-| Receptionist | Appointments, patient registration/search, billing/invoices |
-| Pharmacist | Prescription queue, pharmacy inventory, stock adjustments |
-| Patient | Appointments, prescriptions, invoices, profile |
-
-The role-based navigation model is explicitly defined in the project's UX specification. fileciteturn62file0L11-L22
-
-## UX and Design System
-
-MedCore HMS uses a workspace-first interface intended for daily operational use rather than a decorative dashboard.
-
-Key design principles include:
-
-- Clear visual hierarchy
-- Professional information density
-- Reusable cards and modules
-- Responsive layouts
-- Loading, empty, and error states
-- Keyboard-oriented navigation through a command palette
-- Contextual warnings instead of unnecessary interruptions
-- Destructive confirmation dialogs
-- Non-striped, scan-friendly tables
-
-The design specification emphasizes a command palette as a real productivity feature and defines workspace cards as the main dashboard navigation layer. fileciteturn62file1L61-L67
-
-## Responsive Design
-
-The UI is designed to degrade gracefully across desktop, laptop, tablet, and smaller screens. The project specifications define different navigation and workspace behaviors by breakpoint, with particular attention to front-desk and clinical tablet usage. fileciteturn62file3L113-L132
-
-## Quality and Testing
-
-The backend includes Spring Boot testing, Spring Security testing, JUnit Jupiter, and Testcontainers with MySQL support. fileciteturn63file5L633-L653
-
-Recommended release checks:
+Example:
 
 ```bash
-# Frontend
-npm run lint
-npm run build
-
-# Backend
-./mvnw clean verify
+export JWT_SECRET="<generate-a-secret-of-at-least-32-UTF-8-bytes>"
 ```
 
-The expected release gate is a clean type-check/build, successful tests, valid database migrations, and a successful startup against the configured environment.
+Generate a strong local secret with:
+
+```bash
+openssl rand -base64 48
+```
+
+### Demo credentials
+
+For security, the public repository should not contain a production or personal password. Use the project's local development seed/configuration to obtain the current demo account credentials.
+
+---
+
+## Database & Migrations
+
+Database schema evolution is managed with Flyway migrations.
+
+The migration chain includes identity and access tables, organization/patient/doctor tables, appointments and medical records, laboratory, medicines/prescriptions/inventory, billing/payment tables, notifications/audit tables, query indexes, and development reference data.
+
+Typical migration layout:
+
+```text
+backend/src/main/resources/db/migration/
+├── V1__create_identity_and_access_tables.sql
+├── V2__create_organization_patient_and_doctor_tables.sql
+├── V3__create_appointment_and_medical_record_tables.sql
+├── V4__create_laboratory_tables.sql
+├── V5__create_medicine_prescription_and_inventory_tables.sql
+├── V6__create_invoice_and_payment_tables.sql
+├── V7__create_notification_and_audit_tables.sql
+├── V8__create_query_indexes.sql
+├── V9__insert_development_reference_data.sql
+└── V10__add_payment_audit_columns.sql
+```
+
+Migrations should be treated as forward-only schema history. Avoid manual database changes that bypass Flyway.
+
+---
 
 ## Local Development
 
@@ -261,25 +314,43 @@ The expected release gate is a clean type-check/build, successful tests, valid d
 
 - Java 21
 - Node.js 20+
-- npm or pnpm
+- npm (or pnpm)
 - MySQL 8+
-- Maven wrapper supplied by the backend project
+- Git
+- The Maven wrapper shipped in `backend/`
 
-### Start the backend
+### 1. Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd medcore-hms
+```
+
+### 2. Configure the backend
+
+Provide the database settings and JWT signing secret through the application's environment/profile configuration.
+
+At minimum, configure:
+
+- Database URL
+- Database username
+- Database password
+- JWT signing secret
+- Backend profile
+- Frontend CORS origin(s)
+
+### 3. Start the backend
 
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-On Windows PowerShell:
+The backend is configured for the Spring Boot web application and exposes the API under the project's configured API prefix.
 
-```powershell
-cd backend
-.\mvnw.cmd spring-boot:run
-```
+### 4. Start the frontend
 
-### Start the frontend
+In a second terminal:
 
 ```bash
 cd frontend
@@ -287,74 +358,221 @@ npm install
 npm run dev
 ```
 
-The exact environment variables and database credentials should be taken from the project's local configuration rather than committed credentials.
+Set the frontend API base URL through the Vite environment configuration used by the project.
 
-## Production Configuration
+Example shape:
 
-Before deployment, configure at minimum:
-
-- Database connection
-- JWT signing secret / key material
-- CORS origins
-- Application profile
-- Logging level
-- SMTP/email integration where required
-- File/object storage configuration where applicable
-- External service credentials
-
-Secrets must be supplied through environment variables or a secrets-management system and must never be committed to Git.
-
-## Documentation and API Discovery
-
-The backend includes Springdoc OpenAPI support, making the REST API suitable for interactive API documentation and contract inspection. fileciteturn63file5L614-L617
-
-For a running backend, use the project's configured Swagger/OpenAPI endpoint to inspect available endpoints and request/response models.
-
-## Repository Guidelines
-
-Recommended Git workflow:
-
-```text
-main
- └── feature/*
-     ├── fix/*
-     └── chore/*
+```bash
+VITE_API_BASE_URL=http://localhost:8080/api/v1
 ```
 
-Keep commits focused and descriptive. Avoid committing:
+Do not commit local `.env` files containing secrets.
 
-- Secrets
-- Local database dumps
-- Build output
-- IDE metadata
-- `.env` files containing credentials
-- Generated temporary files
+---
+
+## Quality Gates
+
+The project uses explicit frontend and backend validation commands.
+
+### Frontend
+
+```bash
+cd frontend
+npx tsc --noEmit
+npm run lint
+npm run build
+```
+
+### Backend
+
+```bash
+cd backend
+./mvnw clean verify
+```
+
+or during local development:
+
+```bash
+./mvnw spring-boot:run
+```
+
+The project documentation records successful frontend type-checking and production builds, and the backend includes automated testing support including Spring Boot tests, Spring Security tests, and Testcontainers-based database integration testing.
+
+---
+
+## Representative Clinical Workflows
+
+### Patient clinical workspace
+
+1. Open a patient.
+2. Select or create the medical-record context.
+3. Work from the clinical tabs.
+4. Capture vitals, diagnoses, laboratory requests/results, prescriptions, and billing context.
+5. Review updated data without leaving the patient workspace.
+
+### Doctor scheduling
+
+1. Open a doctor profile.
+2. Open the Scheduling workspace.
+3. Review weekly availability.
+4. Add a day/time window with effective dates.
+5. Validate the start/end and effective date ordering.
+6. Deactivate an availability entry with explicit confirmation.
+
+### Inventory
+
+1. Search and select a medicine.
+2. Review available inventory batches.
+3. Receive a new batch with lot number, expiry, quantity, cost, and supplier reference.
+4. Select a batch to inspect stock context.
+5. Adjust quantity with a mandatory reason.
+6. Review stock movements as an audit trail.
+
+### Appointments
+
+Appointment workflows include creation, conflict detection, check-in, start, completion, and cancellation. Scheduling validation includes future date/time constraints and doctor overlap detection.
+
+### Billing
+
+Billing workflows include invoice creation, issue lifecycle, payment recording, payment history, and payment voiding with an explicit reason and authorization boundary.
+
+---
+
+## UX & Design System
+
+MedCore HMS uses a consistent visual system across operational workspaces.
+
+### Design goals
+
+- High information clarity.
+- Professional information density.
+- Strong hierarchy between context, content, and actions.
+- Reusable cards and feature modules.
+- Responsive layouts.
+- Explicit loading, empty, and error states.
+- Accessible focus states and clear destructive actions.
+- Command-oriented navigation for frequent workflows.
+- Both light and dark themes.
+
+The interface uses a restrained clinical palette with cyan/blue accent states and purpose-specific colors for success, warning, danger, and scheduling/context modules.
+
+---
+
+## API Discovery
+
+The backend includes OpenAPI / Swagger support for API discovery and interactive endpoint documentation.
+
+When the backend is running, use the project's configured Swagger UI or OpenAPI endpoints from the backend configuration.
+
+Representative API areas include:
+
+```text
+/api/v1/auth/*
+/api/v1/patients/*
+/api/v1/doctors/*
+/api/v1/appointments/*
+/api/v1/medical-records/*
+/api/v1/vitals/*
+/api/v1/diagnoses/*
+/api/v1/laboratory/*
+/api/v1/prescriptions/*
+/api/v1/medicines/*
+/api/v1/inventory-batches/*
+/api/v1/invoices/*
+```
+
+The generated OpenAPI catalog remains the authoritative endpoint reference for a tagged release.
+
+---
+
+## Testing Strategy
+
+Recommended release coverage includes:
+
+| Area | Key checks |
+|---|---|
+| Authentication | Login, invalid credentials, invalid/expired tokens, authorization boundaries |
+| Patients | Create, edit, view, clinical workspace, validation failures |
+| Doctors | Create, edit, deactivate, availability creation/deactivation |
+| Appointments | Create, conflict detection, lifecycle transitions, cancellation |
+| Clinical | Medical records, vitals, diagnoses, laboratory, prescriptions |
+| Billing | Invoice lifecycle, payments, payment voiding |
+| Inventory | Medicine search, batch selection, stock adjustment, movement visibility |
+| UX | Light/dark themes, responsive states, focus states, loading/error/empty states |
+
+---
+
+## Production Readiness Notes
+
+MedCore HMS is a completed core application build, but deployment into a real healthcare organization is a separate security, clinical-safety, privacy, and operations phase.
+
+Before real patient use, complete at minimum:
+
+- Penetration testing and JWT/key-management review.
+- Least-privilege authorization audit.
+- Clinical workflow review by qualified healthcare professionals.
+- Data-retention, access-audit, export/deletion, and regional legal review.
+- Monitoring and alerting.
+- Automated database backups and restoration drills.
+- Performance/load testing with realistic datasets.
+- Interoperability assessment for HL7/FHIR or local integration requirements.
+- Final production architecture diagram, ERD, and complete endpoint catalog.
+
+This distinction is intentional: a strong portfolio application can demonstrate architecture and workflow maturity without claiming regulatory approval or production clinical certification that has not been independently established.
+
+---
+
+## Release Checklist
+
+Before tagging a release:
+
+- [ ] `npx tsc --noEmit` passes.
+- [ ] `npm run lint` has no blocking errors.
+- [ ] `npm run build` passes.
+- [ ] `./mvnw clean verify` passes.
+- [ ] Critical clinical and financial workflows are manually regression-tested.
+- [ ] Flyway migrations are validated.
+- [ ] Authorization boundaries are reviewed.
+- [ ] No secrets are committed.
+- [ ] Light and dark themes remain readable.
+- [ ] README and technical documentation match the tagged repository state.
+
+---
 
 ## Project Status
 
-**Status:** Completed application build / portfolio-ready project baseline.
+**Status:** Core application build completed.
 
-The current project includes a broad set of administrative, clinical, scheduling, pharmacy, billing, and patient-management capabilities, together with production-oriented security, validation, API structure, and a responsive application shell.
+The current build includes the implemented clinical, operational, pharmacy, inventory, billing, security, validation, responsive UI, and workspace-oriented navigation capabilities described above.
 
-## Known Scope Notes
+For deeper architecture, deployment, testing, maintenance, security, and operational guidance, see the companion technical documentation in the repository (for example `Documentation.pdf` when included in the release package).
 
-The project sources document a number of planned or extended operational capabilities at the system-design level. README claims are intentionally limited to capabilities supported by the available implementation and project sources.
+---
 
-Where deployment-specific integrations, environment values, or infrastructure details are not present in the available sources, they should be configured according to the target environment rather than inferred from this README.
+## Screenshots Directory
+
+Keep the images used by this README under:
+
+```text
+screenshots/
+├── 01-dashboard.png
+├── 02-clinical-vitals-diagnoses.png
+├── 03-medicines.png
+└── 04-inventory.png
+```
+
+This keeps GitHub rendering self-contained and makes the README portable when the repository is cloned.
+
+---
 
 ## License
 
-Add the project's chosen license here, for example:
+Add the project's chosen license here before publishing the repository publicly. Do not describe the project as open-source until a license file has been intentionally selected and committed.
 
-```text
-MIT License
-Copyright (c) 2026 Oussema RAHMOUNI
-```
-
-Replace the example above with the final legal license selected for the repository.
+---
 
 ## Author
 
 **Oussema RAHMOUNI**
 
-MedCore HMS — Hospital Management System
+MedCore HMS was developed as a portfolio-grade full-stack software engineering project with an emphasis on architecture, security, clinical workflow modeling, maintainability, and polished UX.
